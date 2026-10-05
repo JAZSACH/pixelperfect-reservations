@@ -10,33 +10,64 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BookRouteImport } from './routes/book'
+import { Route as ReservationActionRouteImport } from './routes/reservation-action'
+import { Route as ReservationReceivedRouteImport } from './routes/reservation-received'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BookRoute = BookRouteImport.update({
+  id: '/book',
+  path: '/book',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReservationActionRoute = ReservationActionRouteImport.update({
+  id: '/reservation-action',
+  path: '/reservation-action',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReservationReceivedRoute = ReservationReceivedRouteImport.update({
+  id: '/reservation-received',
+  path: '/reservation-received',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/book': typeof BookRoute
+  '/reservation-action': typeof ReservationActionRoute
+  '/reservation-received': typeof ReservationReceivedRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/book': typeof BookRoute
+  '/reservation-action': typeof ReservationActionRoute
+  '/reservation-received': typeof ReservationReceivedRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/book': typeof BookRoute
+  '/reservation-action': typeof ReservationActionRoute
+  '/reservation-received': typeof ReservationReceivedRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/book' | '/reservation-action' | '/reservation-received'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/book' | '/reservation-action' | '/reservation-received'
+  id:
+    '__root__' | '/' | '/book' | '/reservation-action' | '/reservation-received'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BookRoute: typeof BookRoute
+  ReservationActionRoute: typeof ReservationActionRoute
+  ReservationReceivedRoute: typeof ReservationReceivedRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +79,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/book': {
+      id: '/book'
+      path: '/book'
+      fullPath: '/book'
+      preLoaderRoute: typeof BookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reservation-action': {
+      id: '/reservation-action'
+      path: '/reservation-action'
+      fullPath: '/reservation-action'
+      preLoaderRoute: typeof ReservationActionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reservation-received': {
+      id: '/reservation-received'
+      path: '/reservation-received'
+      fullPath: '/reservation-received'
+      preLoaderRoute: typeof ReservationReceivedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BookRoute: BookRoute,
+  ReservationActionRoute: ReservationActionRoute,
+  ReservationReceivedRoute: ReservationReceivedRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
