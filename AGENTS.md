@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Guest limits live in src/lib/reservation-rules.ts and must also be enforced server-side and by a DB check constraint — frontend checks alone can be bypassed.
+- Owner confirm/decline links must carry a server-verified signed token and need a click on /reservation-action — stops email scanners auto-triggering actions.
