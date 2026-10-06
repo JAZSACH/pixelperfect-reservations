@@ -1,4 +1,5 @@
 # Roadmap
 - [x] Heritage site: home, Book a Table (Small/Big Party forms + validation), request-received page, owner action page
-- [ ] Reservations table + RLS — blocked: Supabase not connected yet
-- [ ] Reservation saving, Resend emails, confirm/decline — blocked: Supabase connection + Resend API key; Edge Functions not allowed here, use server functions
+- [x] Lovable Cloud backend enabled
+- [ ] Reservations table + RLS + DB check constraint on guest limits
+- [ ] Reservation saving via server function, Resend emails, signed confirm/decline tokens — needs Resend verified domain for guest emails
