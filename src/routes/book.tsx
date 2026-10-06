@@ -81,13 +81,13 @@ function BookingForm({ type }: { type: BookingType }) {
     e.preventDefault();
     setServerError("");
     const fd = Object.fromEntries(new FormData(e.currentTarget)) as Record<string, string>;
-    const parsed = base.safeParse({ ...fd, event_type: fd.event_type ?? "" });
+    const parsed = base.safeParse({ ...fd, event_type: fd['event_type'] ?? "" });
     const errs: Record<string, string> = {};
     if (!parsed.success) parsed.error.issues.forEach((i) => (errs[String(i.path[0])] = i.message));
     const gErr = guests === "" ? "Required" : guestCountError(type, Number(guests));
-    if (gErr) errs.guest_count = gErr;
-    if (big && !fd.event_type) errs.event_type = "Please choose an event type";
-    if (fd.reservation_date && fd.reservation_date < today) errs.reservation_date = "Please choose a future date";
+    if (gErr) errs['guest_count'] = gErr;
+    if (big && !fd['event_type']) errs['event_type'] = "Please choose an event type";
+    if (fd['reservation_date'] && fd['reservation_date'] < today) errs['reservation_date'] = "Please choose a future date";
     setErrors(errs);
     if (Object.keys(errs).length || !parsed.success) return;
     if (!supabase) return setServerError(NOT_CONFIGURED);
@@ -116,7 +116,7 @@ function BookingForm({ type }: { type: BookingType }) {
         <label className="block">
           <span className="mb-1.5 block text-sm font-medium">Number of guests ({lim.min}–{lim.max})</span>
           <input className={inputCls} type="number" inputMode="numeric" min={lim.min} max={lim.max} value={guests} onChange={(e) => setGuests(e.target.value)} />
-          {(guestErr || errors.guest_count) && <span className="mt-1 block text-sm text-destructive">{guestErr ?? errors.guest_count}</span>}
+          {(guestErr || errors['guest_count']) && <span className="mt-1 block text-sm text-destructive">{guestErr ?? errors['guest_count']}</span>}
         </label>
         <Field label="Date" name="reservation_date" type="date" min={today} errors={errors} />
         <Field label="Preferred time" name="reservation_time" type="time" errors={errors} />
@@ -127,7 +127,7 @@ function BookingForm({ type }: { type: BookingType }) {
               <option value="" disabled>Choose…</option>
               {EVENT_TYPES.map((t) => <option key={t}>{t}</option>)}
             </select>
-            {errors.event_type && <span className="mt-1 block text-sm text-destructive">{errors.event_type}</span>}
+            {errors['event_type'] && <span className="mt-1 block text-sm text-destructive">{errors['event_type']}</span>}
           </label>
         )}
       </div>
