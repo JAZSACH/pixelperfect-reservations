@@ -2,7 +2,8 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { z } from "zod";
 import { EVENT_TYPES, LIMITS, guestCountError, type BookingType } from "@/lib/reservation-rules";
-import { supabase, NOT_CONFIGURED } from "@/lib/supabase";
+import { useServerFn } from "@tanstack/react-start";
+import { createReservation } from "@/lib/reservations.functions";
 
 export const Route = createFileRoute("/book")({
   head: () => ({
@@ -90,19 +91,17 @@ function BookingForm({ type }: { type: BookingType }) {
     if (fd['reservation_date'] && fd['reservation_date'] < today) errs['reservation_date'] = "Please choose a future date";
     setErrors(errs);
     if (Object.keys(errs).length || !parsed.success) return;
-    if (!supabase) return setServerError(NOT_CONFIGURED);
-
     setSubmitting(true);
-    const { data, error } = await supabase.functions.invoke("create-reservation", {
-      body: { ...parsed.data, booking_type: type, guest_count: Number(guests), event_type: big ? parsed.data.event_type : null },
-    });
-    setSubmitting(false);
-    if (error || !data?.reference) {
-      let msg = "Sorry, we couldn't send your request. Please try again or call us.";
-      try { const b = await (error as { context?: Response })?.context?.json(); if (b?.error) msg = b.error; } catch { /* keep default */ }
-      return setServerError(msg);
+    try {
+      const data = await create({
+        data: { ...parsed.data, booking_type: type, guest_count: Number(guests), event_type: big ? parsed.data.event_type : null },
+      });
+      navigate({ to: "/reservation-received", search: { ref: data.reference } });
+    } catch (err) {
+      setServerError(err instanceof Error ? err.message : "Sorry, we couldn't send your request. Please try again or call us.");
+    } finally {
+      setSubmitting(false);
     }
-    navigate({ to: "/reservation-received", search: { ref: data.reference } });
   }
 
   return (
