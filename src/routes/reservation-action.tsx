@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import { supabase, NOT_CONFIGURED } from "@/lib/supabase";
+import { performReservationAction } from "@/lib/reservations.functions";
 
-// Owner lands here from the email buttons. The signed token is verified by the
-// `reservation-action` Edge Function; nothing privileged happens in the browser.
+// Owner lands here from the email buttons. The signed token is verified on the
+// server; nothing privileged happens in the browser.
 export const Route = createFileRoute("/reservation-action")({
   ssr: false,
   validateSearch: z.object({
@@ -19,6 +20,8 @@ export const Route = createFileRoute("/reservation-action")({
       { name: "description", content: "Confirm or decline a reservation." },
       { property: "og:title", content: "Reservation Action" },
       { property: "og:description", content: "Owner reservation action." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -27,23 +30,22 @@ export const Route = createFileRoute("/reservation-action")({
 
 function ActionPage() {
   const s = Route.useSearch();
+  const act = useServerFn(performReservationAction);
   const [state, setState] = useState<{ title: string; body: string } | null>(null);
   const [ready, setReady] = useState(false);
 
   async function run() {
-    if (!supabase) return setState({ title: "Unavailable", body: NOT_CONFIGURED });
     setState({ title: "Working…", body: "" });
-    const { data, error } = await supabase.functions.invoke("reservation-action", { body: s });
-    if (error || !data) {
-      let msg = "This link is invalid or has expired.";
-      try { const b = await (error as { context?: Response })?.context?.json(); if (b?.error) msg = b.error; } catch { /* default */ }
-      return setState({ title: "Couldn't update reservation", body: msg });
+    try {
+      const data = await act({ data: s });
+      if (data.result === "already") return setState({ title: "No change made", body: `Reservation ${data.reference} is already ${data.status}.` });
+      setState({
+        title: data.status === "confirmed" ? "Reservation Confirmed" : "Reservation Declined",
+        body: `Reservation ${data.reference} has been ${data.status}. The customer has been emailed.`,
+      });
+    } catch (e) {
+      setState({ title: "Couldn't update reservation", body: e instanceof Error ? e.message : "This link is invalid or has expired." });
     }
-    if (data.result === "already") return setState({ title: "No change made", body: `Reservation ${data.reference} is already ${data.status}.` });
-    setState({
-      title: data.status === "confirmed" ? "Reservation Confirmed" : "Reservation Declined",
-      body: `Reservation ${data.reference} has been ${data.status}. The customer has been emailed.`,
-    });
   }
 
   useEffect(() => setReady(true), []);
