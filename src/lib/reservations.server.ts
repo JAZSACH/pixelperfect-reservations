@@ -24,7 +24,7 @@ export type ReservationRow = {
 export class UserFacingError extends Error {}
 
 export function getDb(): SupabaseClient {
-  const url = process.env["EXTERNAL_SUPABASE_URL"];
+  const url = process.env["EXTERNAL_SUPABASE_URL"]?.trim().replace(/\/rest\/v1.*$/, "").replace(/\/+$/, "");
   const key = process.env["EXTERNAL_SUPABASE_SERVICE_ROLE_KEY"];
   if (!url || !key) {
     console.error("EXTERNAL_SUPABASE_URL / EXTERNAL_SUPABASE_SERVICE_ROLE_KEY not configured");
