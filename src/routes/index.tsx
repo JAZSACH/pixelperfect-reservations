@@ -29,8 +29,9 @@ function Index() {
         <img src={hero} alt="Candlelit wood-panelled dining room" width={1920} height={1088} className="absolute inset-0 h-full w-full object-cover opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-t from-deep via-deep/40 to-transparent" />
         <div className="relative mx-auto w-full max-w-6xl px-6 pb-20">
-          <p className="eyebrow">Est. 16th Century · Grade II* Listed</p>
-          <h1 className="mt-4 max-w-3xl text-5xl leading-[1.05] md:text-7xl">Good food. Great drinks. Historic surroundings.</h1>
+          <h1 className="font-serif text-5xl leading-[1.05] md:text-7xl">The Crown &amp; Treaty</h1>
+          <p className="mt-4 max-w-3xl text-2xl leading-snug opacity-90 md:text-3xl">Good food. Great drinks. Historic surroundings.</p>
+          <p className="eyebrow mt-4">Est. 16th Century · Grade II* Listed</p>
           <Link to="/book" className="mt-10 inline-block bg-accent px-8 py-4 text-xs uppercase tracking-[0.22em] text-accent-foreground transition-opacity hover:opacity-90">
             Book a Table
           </Link>
