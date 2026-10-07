@@ -69,6 +69,7 @@ function OptionCard(p: { active: boolean; onClick: () => void; title: string; ra
 
 function BookingForm({ type }: { type: BookingType }) {
   const navigate = useNavigate();
+  const create = useServerFn(createReservation);
   const big = type === "big_party";
   const lim = LIMITS[type];
   const [guests, setGuests] = useState("");

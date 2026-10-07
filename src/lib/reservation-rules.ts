@@ -1,4 +1,4 @@
-// Shared guest-count rules. Mirrored in supabase/functions/_shared/rules.ts (backend enforcement).
+// Shared guest-count rules. Enforced in the browser, in reservations.functions.ts, and by a DB check constraint.
 export type BookingType = "small_party" | "big_party";
 
 export const LIMITS: Record<BookingType, { min: number; max: number }> = {
