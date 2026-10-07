@@ -1,5 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import hero from "@/assets/hero.jpg";
+import food from "@/assets/food.jpg";
+import garden from "@/assets/garden.jpg";
+import functions from "@/assets/functions.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -13,13 +16,29 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const FEATURES = [
-  ["Food & Dining", "Comforting, well-cooked pub food served in historic wood-panelled rooms."],
-  ["Drinks", "Local ales, craft beers, carefully chosen wines and classic cocktails."],
-  ["Sunday Lunch", "Traditional roasts every Sunday from midday until the kitchen closes."],
-  ["The Garden", "Eat and drink outdoors, close to the Grand Union Canal."],
-  ["Private Functions", "The Charles Bar, Crown Room, Treaty Room and Conservatory."],
-  ["Weddings", "Historic rooms licensed for civil ceremonies and receptions."],
+const SECTIONS = [
+  {
+    eyebrow: "Food & Drink",
+    title: "Honest pub food, cooked well",
+    body: "Comforting, seasonal plates served in historic wood-panelled rooms — from hearty mains to our traditional Sunday roast, alongside local ales, craft beers and carefully chosen wines.",
+    image: food,
+    alt: "Fish and chips and a pint of ale in the candlelit dining room",
+  },
+  {
+    eyebrow: "The Garden",
+    title: "Drinks by the canal",
+    body: "Our garden and conservatory open out towards the Grand Union Canal — long summer evenings under the festoon lights, blankets and firelight when the weather turns.",
+    image: garden,
+    alt: "The pub garden at sunset, with tables beside the Grand Union Canal",
+  },
+  {
+    eyebrow: "Celebrations",
+    title: "Rooms with history",
+    body: "The Charles Bar, Crown Room, Treaty Room and Conservatory host private dining, parties and weddings for up to 150 guests — historic rooms licensed for civil ceremonies.",
+    image: functions,
+    alt: "A candlelit function room dressed for a celebration",
+    bigParty: true,
+  },
 ];
 
 function Index() {
@@ -48,23 +67,41 @@ function Index() {
         </p>
       </section>
 
-      <section className="border-y border-border bg-card">
-        <div className="mx-auto grid max-w-6xl md:grid-cols-3">
-          {FEATURES.map(([t, d]) => (
-            <div key={t} className="border-border p-10 md:border-r md:[&:nth-child(3n)]:border-r-0 [&:nth-child(-n+3)]:md:border-b">
-              <h3 className="text-2xl text-primary">{t}</h3>
-              <p className="mt-3 text-muted-foreground">{d}</p>
+      {SECTIONS.map((s, i) => (
+        <section key={s.eyebrow} className={i % 2 === 1 ? "bg-card" : undefined}>
+          <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-16 md:grid-cols-2 md:gap-16 md:py-24">
+            <img
+              src={s.image}
+              alt={s.alt}
+              width={1024}
+              height={1280}
+              loading="lazy"
+              className={`aspect-[4/5] w-full border border-border object-cover shadow-lg ${i % 2 === 1 ? "md:order-2" : ""}`}
+            />
+            <div className={i % 2 === 1 ? "md:order-1" : undefined}>
+              <p className="eyebrow">{s.eyebrow}</p>
+              <h2 className="mt-3 font-serif text-3xl leading-tight text-primary md:text-4xl">{s.title}</h2>
+              <p className="mt-5 text-lg leading-8 text-muted-foreground">{s.body}</p>
+              <Link
+                to="/book"
+                className="mt-8 inline-block border border-primary px-8 py-4 text-xs uppercase tracking-[0.22em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+              >
+                {s.bigParty ? "Plan an Event" : "Book a Table"}
+              </Link>
             </div>
-          ))}
-        </div>
-      </section>
+          </div>
+        </section>
+      ))}
 
-      <section className="mx-auto max-w-6xl px-6 py-24 text-center">
-        <h2 className="text-4xl text-primary">Planning a gathering of 21 or more?</h2>
-        <p className="mt-4 text-muted-foreground">We host celebrations and events for up to 150 guests.</p>
-        <Link to="/book" className="mt-8 inline-block border border-primary px-8 py-4 text-xs uppercase tracking-[0.22em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground">
-          Book a Table
-        </Link>
+      <section className="border-y border-border bg-deep text-center text-deep-foreground">
+        <div className="mx-auto max-w-6xl px-6 py-24">
+          <p className="eyebrow">Gatherings</p>
+          <h2 className="mt-3 font-serif text-4xl md:text-5xl">Planning a gathering of 21 or more?</h2>
+          <p className="mx-auto mt-4 max-w-xl text-lg opacity-80">We host birthdays, celebrations, corporate events and weddings for up to 150 guests.</p>
+          <Link to="/book" className="mt-10 inline-block bg-accent px-8 py-4 text-xs uppercase tracking-[0.22em] text-accent-foreground transition-opacity hover:opacity-90">
+            Book a Table
+          </Link>
+        </div>
       </section>
     </>
   );
