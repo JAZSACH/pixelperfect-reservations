@@ -165,7 +165,7 @@ function customerDetails(r: ReservationRow): string {
     .join("")}</table>`;
 }
 
-function customerLayout(heading: string, intro: string, r: ReservationRow, outro: string): string {
+function customerLayout(heading: string, intro: string, r: ReservationRow, outro: string, note?: string): string {
   return `<div style="background:${CREAM};padding:24px 12px;font-family:${SERIF}">
 <div style="max-width:600px;margin:auto;background:#fffdf7;border-radius:12px;overflow:hidden;border:1px solid #e6dcc0">
 <div style="background:${GREEN};padding:36px 24px;text-align:center">
@@ -177,7 +177,7 @@ function customerLayout(heading: string, intro: string, r: ReservationRow, outro
 <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.7;color:${INK}">${intro}</p>
 ${customerDetails(r)}
 <p style="margin:28px 0 10px;font-size:20px;color:${GREEN}">${outro}</p>
-<p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.7;color:${MUTED}">If your plans change, please call us on <a href="tel:${esc(VENUE.phoneTel)}" style="color:${GREEN}">${esc(VENUE.phone)}</a> so we can offer the table to another guest.</p>
+<p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.7;color:${MUTED}">${note ?? `If your plans change, please call us on <a href="tel:${esc(VENUE.phoneTel)}" style="color:${GREEN}">${esc(VENUE.phone)}</a> so we can offer the table to another guest.`}</p>
 </div>
 <div style="background:${GREEN};padding:20px 24px;text-align:center;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:${CREAM}">The Crown &amp; Treaty &middot; ${esc(VENUE.address)}<br/>${esc(VENUE.phone)}</div>
 </div></div>`;
@@ -223,6 +223,7 @@ export async function sendDecisionEmail(r: ReservationRow, status: "confirmed" |
           `Unfortunately we're unable to accommodate your reservation request at The Crown &amp; Treaty. We're sorry to disappoint you.`,
           r,
           "We'd love to help you find another time.",
+          `Please call us on <a href="tel:${esc(VENUE.phoneTel)}" style="color:${GREEN}">${esc(VENUE.phone)}</a> and we'll gladly look at alternatives.`,
         ),
   );
 }
