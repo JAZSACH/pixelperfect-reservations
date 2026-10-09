@@ -1,5 +1,5 @@
 # Roadmap
-- [ ] Add clickable Weddings section, wedding details page and photo gallery
+- [x] Add clickable Weddings section, wedding details page and photo gallery
 - [x] Heritage site: home, Book a Table (Small/Big Party forms + validation), request-received page, owner action page
 - [x] Booking + owner action pages wired to server functions (own Supabase + Resend, no Lovable Cloud)
 - [x] User runs docs/external-supabase.sql in their own Supabase
