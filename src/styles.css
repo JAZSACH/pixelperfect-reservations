@@ -61,12 +61,16 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-deep: var(--deep);
   --color-deep-foreground: var(--deep-foreground);
+  --color-wedding-cta: var(--wedding-cta);
+  --color-wedding-cta-foreground: var(--wedding-cta-foreground);
   --font-serif: "Cormorant Garamond", Georgia, serif;
   --font-sans: "Karla", system-ui, sans-serif;
 }
 
 :root {
   --radius: 0.25rem;
+  --wedding-cta: oklch(0.4 0.055 45);
+  --wedding-cta-foreground: oklch(0.96 0.02 85);
   --background: oklch(0.965 0.018 85);
   --foreground: oklch(0.24 0.03 150);
   --card: oklch(0.985 0.012 85);

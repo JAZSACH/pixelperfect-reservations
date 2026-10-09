@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { VENUE } from "@/lib/venue";
+import { Button } from "@/components/ui/button";
 
 export function SiteHeader() {
   return (
@@ -9,13 +10,14 @@ export function SiteHeader() {
           <span className="block font-serif text-2xl">The Crown &amp; Treaty</span>
           <span className="eyebrow mt-1 block">Uxbridge · Est. 16th C.</span>
         </Link>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3 sm:gap-6">
+          <Button asChild variant="link" className="h-auto px-0 text-deep-foreground"><Link to="/weddings">Weddings</Link></Button>
           <a href={`tel:${VENUE.phoneTel}`} className="hidden text-sm opacity-80 hover:opacity-100 sm:block">
             {VENUE.phone}
           </a>
           <Link
             to="/book"
-            className="border border-accent px-5 py-2.5 text-xs uppercase tracking-[0.2em] text-accent transition-colors hover:bg-accent hover:text-accent-foreground"
+            className="hidden border border-accent px-5 py-2.5 text-xs uppercase tracking-[0.2em] text-accent transition-colors hover:bg-accent hover:text-accent-foreground sm:block"
           >
             Book a Table
           </Link>

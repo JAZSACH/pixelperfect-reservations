@@ -3,6 +3,8 @@ import hero from "@/assets/hero.jpg";
 import food from "@/assets/food.jpg";
 import garden from "@/assets/garden.jpg";
 import functions from "@/assets/functions.jpg";
+import wedding from "@/assets/wedding-ceremony.jpg.asset.json";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -11,6 +13,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Grade II* listed 16th-century pub in Uxbridge: gastropub dining, Sunday roasts, garden, functions and weddings." },
       { property: "og:title", content: "The Crown & Treaty, Uxbridge" },
       { property: "og:description", content: "Good food, great drinks, historic surroundings. Book a table online." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
@@ -93,6 +97,17 @@ function Index() {
         </section>
       ))}
 
+      <section className="bg-card">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-16 md:grid-cols-2 md:gap-16 md:py-24">
+          <Link to="/weddings" aria-label="Explore weddings at The Crown & Treaty"><img src={wedding.url} alt="A wedding ceremony at The Crown & Treaty" loading="lazy" className="aspect-[4/3] w-full object-cover" /></Link>
+          <div>
+            <p className="eyebrow">Your wedding day</p>
+            <h2 className="mt-3 text-4xl text-primary"><Link to="/weddings" className="hover:underline">Weddings</Link></h2>
+            <p className="mt-5 text-lg leading-8 text-muted-foreground">Civil ceremonies, wedding breakfasts and evening receptions in our historic Crown and Treaty rooms and beautiful Charles bar.</p>
+            <Button asChild variant="outline" className="mt-8 h-auto rounded-none border-primary px-8 py-4 text-xs uppercase text-primary"><Link to="/weddings">Explore Weddings</Link></Button>
+          </div>
+        </div>
+      </section>
       <section className="border-y border-border bg-deep text-center text-deep-foreground">
         <div className="mx-auto max-w-6xl px-6 py-24">
           <p className="eyebrow">Gatherings</p>
