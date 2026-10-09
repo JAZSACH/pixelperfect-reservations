@@ -12,6 +12,8 @@ export const Route = createFileRoute("/book")({
       { name: "description", content: "Request a table or a big party booking at The Crown & Treaty in Uxbridge." },
       { property: "og:title", content: "Book a Table at The Crown & Treaty" },
       { property: "og:description", content: "Small parties of 1–20 and big parties of 21–150 guests." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: BookPage,

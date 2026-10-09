@@ -9,6 +9,8 @@ export const Route = createFileRoute("/reservation-received")({
       { name: "description", content: "Your reservation request is pending approval." },
       { property: "og:title", content: "Reservation Request Received" },
       { property: "og:description", content: "Your reservation request at The Crown & Treaty is pending approval." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex" },
     ],
   }),
