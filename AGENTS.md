@@ -11,4 +11,6 @@
 
 - Guest limits live in src/lib/reservation-rules.ts and must also be enforced server-side and by a DB check constraint — frontend checks alone can be bypassed.
 - Owner confirm/decline links must carry a server-verified signed token and need a click on /reservation-action — stops email scanners auto-triggering actions.
-- Weddings live on a dedicated /weddings page linked from the home page and header, with ceremony capacity data in src/lib/weddings.ts — keeps the wedding content shareable and capacities testable.
+- Weddings live on a dedicated /weddings page linked from the home page (not the header), with ceremony capacity data in src/lib/weddings.ts — keeps the wedding content shareable and capacities testable.
+
+- Wedding enquiries use /wedding-booking, reusing src/components/booking-form.tsx and the same reservations table/emails; the room is stored in event_type and booking_type is derived from guest count — keeps the existing DB guest-limit constraint valid without a schema change.
