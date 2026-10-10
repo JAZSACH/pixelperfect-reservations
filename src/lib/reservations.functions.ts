@@ -1,11 +1,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 import { z } from "zod";
-import { guestCountError } from "./reservation-rules";
+import { guestCountError, weddingEventType, weddingGuestError, weddingStorageType } from "./reservation-rules";
 
 const bookingInput = z
   .object({
     booking_type: z.enum(["small_party", "big_party"]),
+    wedding_room: z.enum(["crown", "treaty"]).optional(),
     first_name: z.string().trim().min(1).max(80),
     last_name: z.string().trim().min(1).max(80),
     email: z.string().trim().email().max(255),
@@ -18,6 +19,11 @@ const bookingInput = z
     dietary_requirements: z.string().trim().max(1000),
   })
   .superRefine((v, ctx) => {
+    if (v.wedding_room) {
+      const err = weddingGuestError(v.wedding_room, v.guest_count);
+      if (err) ctx.addIssue({ code: "custom", message: err, path: ["guest_count"] });
+      return;
+    }
     const err = guestCountError(v.booking_type, v.guest_count);
     if (err) ctx.addIssue({ code: "custom", message: err, path: ["guest_count"] });
     if (v.booking_type === "big_party" && !v.event_type)
@@ -38,11 +44,15 @@ export const createReservation = createServerFn({ method: "POST" })
     if (data.reservation_date < today) throw new Error("Please choose a future date");
     try {
       const db = getDb();
+      const { wedding_room, ...fields } = data;
+      const booking_type = wedding_room ? weddingStorageType(data.guest_count) : data.booking_type;
+      const event_type = wedding_room ? weddingEventType(wedding_room) : data.booking_type === "big_party" ? data.event_type : null;
       const { data: row, error } = await db
         .from("reservations")
         .insert({
-          ...data,
-          event_type: data.booking_type === "big_party" ? data.event_type : null,
+          ...fields,
+          booking_type,
+          event_type,
           special_requests: data.special_requests || null,
           dietary_requirements: data.dietary_requirements || null,
         })
