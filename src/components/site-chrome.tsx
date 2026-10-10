@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { VENUE } from "@/lib/venue";
-import { Button } from "@/components/ui/button";
 
 export function SiteHeader() {
   return (
@@ -11,7 +10,6 @@ export function SiteHeader() {
           <span className="eyebrow mt-1 block">Uxbridge · Est. 16th C.</span>
         </Link>
         <div className="flex items-center gap-3 sm:gap-6">
-          <Button asChild variant="link" className="h-auto px-0 text-deep-foreground"><Link to="/weddings">Weddings</Link></Button>
           <a href={`tel:${VENUE.phoneTel}`} className="hidden text-sm opacity-80 hover:opacity-100 sm:block">
             {VENUE.phone}
           </a>

@@ -8,4 +8,5 @@
 - [x] End-to-end test booking (CT-6B83A2) + guest-limit validation
 - [ ] User confirms the two test emails arrived (request-received to customer, Confirm/Decline to thecrowntreaty@gmail.com)
 - [ ] Delete the two "Test Booking" rows from the reservations table
+- [x] Wedding enquiries: Crown Room (26) / Treaty Room (21) at /wedding-booking; header Weddings button removed
 - [ ] Publishing / hosting the site (user's plan: Vercel)

@@ -1,5 +1,6 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { VENUE } from "./venue";
+import { WEDDING_EVENT_PREFIX } from "./reservation-rules";
 
 // Server-only. Talks to the owner's OWN Supabase project (not Lovable Cloud) using
 // EXTERNAL_SUPABASE_* secrets, and sends mail through Resend.
@@ -20,6 +21,11 @@ export type ReservationRow = {
   dietary_requirements: string | null;
   status: "pending" | "confirmed" | "declined";
 };
+
+export function typeLabel(r: Pick<ReservationRow, "booking_type" | "event_type">): string {
+  if (r.event_type?.startsWith(WEDDING_EVENT_PREFIX)) return r.event_type;
+  return r.booking_type === "big_party" ? "Big Party" : "Small Party";
+}
 
 export class UserFacingError extends Error {}
 
@@ -111,7 +117,7 @@ function details(r: ReservationRow): string {
     ["Name", `${r.first_name} ${r.last_name}`],
     ["Email", r.email],
     ["Phone", r.phone],
-    ["Type", r.booking_type === "big_party" ? "Big Party" : "Small Party"],
+    ["Type", typeLabel(r)],
     ["Guests", String(r.guest_count)],
     ["Date", r.reservation_date],
     ["Time", r.reservation_time.slice(0, 5)],
@@ -200,7 +206,7 @@ export async function sendNewReservationEmails(r: ReservationRow, origin: string
     ),
     sendEmail(
       process.env["OWNER_EMAIL"] || VENUE.email,
-      `New ${r.booking_type === "big_party" ? "Big Party" : "Small Party"} request ${r.reference}`,
+      `New ${typeLabel(r)} request ${r.reference}`,
       layout("New reservation request", `${details(r)}<p style="margin-top:24px">${btn(confirmUrl, "Confirm", "#1f3a2c")}${btn(declineUrl, "Decline", "#8a2f2f")}</p><p style="font-size:13px;color:#6b6b5a">Each button opens a page where you confirm your choice. Links expire in 14 days.</p>`),
     ),
   ]);

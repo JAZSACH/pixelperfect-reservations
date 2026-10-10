@@ -38,7 +38,7 @@ const PHOTOS = [
 ];
 
 function EnquiryButton() {
-  return <Button asChild className="h-auto max-w-full whitespace-normal rounded-sm bg-wedding-cta px-8 py-3 font-serif text-2xl italic text-wedding-cta-foreground shadow-none hover:bg-wedding-cta/90"><Link to="/book">Book or enquire now</Link></Button>;
+  return <Button asChild className="h-auto max-w-full whitespace-normal rounded-sm bg-wedding-cta px-8 py-3 font-serif text-2xl italic text-wedding-cta-foreground shadow-none hover:bg-wedding-cta/90"><Link to="/wedding-booking">Book or enquire now</Link></Button>;
 }
 
 function WeddingsPage() {
