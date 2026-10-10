@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as ReservationActionRouteImport } from './routes/reservation-action'
 import { Route as ReservationReceivedRouteImport } from './routes/reservation-received'
+import { Route as WeddingBookingRouteImport } from './routes/wedding-booking'
 import { Route as WeddingsRouteImport } from './routes/weddings'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +36,11 @@ const ReservationReceivedRoute = ReservationReceivedRouteImport.update({
   path: '/reservation-received',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WeddingBookingRoute = WeddingBookingRouteImport.update({
+  id: '/wedding-booking',
+  path: '/wedding-booking',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WeddingsRoute = WeddingsRouteImport.update({
   id: '/weddings',
   path: '/weddings',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/book': typeof BookRoute
   '/reservation-action': typeof ReservationActionRoute
   '/reservation-received': typeof ReservationReceivedRoute
+  '/wedding-booking': typeof WeddingBookingRoute
   '/weddings': typeof WeddingsRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/book': typeof BookRoute
   '/reservation-action': typeof ReservationActionRoute
   '/reservation-received': typeof ReservationReceivedRoute
+  '/wedding-booking': typeof WeddingBookingRoute
   '/weddings': typeof WeddingsRoute
 }
 export interface FileRoutesById {
@@ -61,6 +69,7 @@ export interface FileRoutesById {
   '/book': typeof BookRoute
   '/reservation-action': typeof ReservationActionRoute
   '/reservation-received': typeof ReservationReceivedRoute
+  '/wedding-booking': typeof WeddingBookingRoute
   '/weddings': typeof WeddingsRoute
 }
 export interface FileRouteTypes {
@@ -70,6 +79,7 @@ export interface FileRouteTypes {
     | '/book'
     | '/reservation-action'
     | '/reservation-received'
+    | '/wedding-booking'
     | '/weddings'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -77,6 +87,7 @@ export interface FileRouteTypes {
     | '/book'
     | '/reservation-action'
     | '/reservation-received'
+    | '/wedding-booking'
     | '/weddings'
   id:
     | '__root__'
@@ -84,6 +95,7 @@ export interface FileRouteTypes {
     | '/book'
     | '/reservation-action'
     | '/reservation-received'
+    | '/wedding-booking'
     | '/weddings'
   fileRoutesById: FileRoutesById
 }
@@ -92,6 +104,7 @@ export interface RootRouteChildren {
   BookRoute: typeof BookRoute
   ReservationActionRoute: typeof ReservationActionRoute
   ReservationReceivedRoute: typeof ReservationReceivedRoute
+  WeddingBookingRoute: typeof WeddingBookingRoute
   WeddingsRoute: typeof WeddingsRoute
 }
 
@@ -125,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReservationReceivedRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/wedding-booking': {
+      id: '/wedding-booking'
+      path: '/wedding-booking'
+      fullPath: '/wedding-booking'
+      preLoaderRoute: typeof WeddingBookingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/weddings': {
       id: '/weddings'
       path: '/weddings'
@@ -140,6 +160,7 @@ const rootRouteChildren: RootRouteChildren = {
   BookRoute: BookRoute,
   ReservationActionRoute: ReservationActionRoute,
   ReservationReceivedRoute: ReservationReceivedRoute,
+  WeddingBookingRoute: WeddingBookingRoute,
   WeddingsRoute: WeddingsRoute,
 }
 export const routeTree = rootRouteImport
